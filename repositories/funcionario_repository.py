@@ -15,6 +15,19 @@ def post_funcionario(nome, funcao):
         print("Erro na transação do BD:", e)
         conn.rollback()
 
+def get_funcionarios():
+    try:
+        script = """SELECT * FROM funcionarios"""
+        
+        cursor.execute(script)
+        resultado = cursor.fetchall()
+
+        return resultado
+
+    except oracledb.DatabaseError as e:
+        print("Erro na consulta:", e)
+        return None
+
 def get_funcionario_por_id(id):
     try:
         script = """SELECT * FROM funcionarios WHERE id = :id"""
@@ -74,21 +87,18 @@ def update_funcionario(id_funcionario, campo, novo_valor):
         print("Erro ao atualizar funcionário:", e)
         conn.rollback()
 
-def delete_funcionario(campo, valor):
+def delete_funcionario(id):
     try:
-        if campo.lower() not in ['id', 'nome', 'funcao']:
-            print("Campo inválido. Use apenas 'id', 'nome' ou 'funcao'.")
-            return
 
-        script = f"""DELETE FROM funcionarios WHERE {campo} = :valor"""
+        script = f"""DELETE FROM funcionarios WHERE id = :id"""
 
-        cursor.execute(script, {'valor': valor})
+        cursor.execute(script, {'id': id})
         conn.commit()
 
         if cursor.rowcount > 0:
-            print(f"Funcionário(s) com {campo} = '{valor}' deletado(s) com sucesso!")
+            print(f"Funcionário(s) com id = '{id}' deletado(s) com sucesso!")
         else:
-            print(f"Nenhum funcionário encontrado com {campo} = '{valor}'.")
+            print(f"Nenhum funcionário encontrado com id = '{id}'.")
 
     except oracledb.DatabaseError as e:
         print("Erro ao deletar funcionário:", e)
