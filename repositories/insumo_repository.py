@@ -1,14 +1,14 @@
 from db import get_connection
 import oracledb
 
-conn, cursor = get_connection()
-
-if conn is None or cursor is None:
-    print("Conexão com o banco falhou. Encerrando...")
-    exit()
+# conn, cursor = get_connection()
+# if conn is None or cursor is None:
+#     print("Conexão com o banco falhou. Encerrando...")
+#    exit()
 
 def post_insumo(nome, quantidade, peso, tipo, data_validade):
     try:
+        conn, cursor = get_connection()
         script = """INSERT INTO insumos (nome, quantidade, peso, tipo, data_validade) VALUES (:nome, :quantidade, :peso, :tipo, :data_validade)"""
         
         cursor.execute(script, {'nome': nome, 'quantidade': quantidade, 'peso': peso, 'tipo': tipo, 'data_validade': data_validade})
@@ -26,6 +26,7 @@ def post_insumo(nome, quantidade, peso, tipo, data_validade):
 
 def get_insumos():
     try:
+        conn, cursor = get_connection()
         script = """SELECT * FROM insumos"""
         
         cursor.execute(script)
@@ -45,6 +46,7 @@ def get_insumos():
     
 def get_insumo_por_id(id):
     try:
+        conn, cursor = get_connection()
         script = """SELECT * FROM insumos WHERE id = :id"""
         
         cursor.execute(script, {'id': id})
@@ -64,6 +66,7 @@ def get_insumo_por_id(id):
     
 def get_insumo_por_nome(nome):
     try:
+        conn, cursor = get_connection()
         script = """SELECT * FROM insumos WHERE nome = :nome"""
         
         cursor.execute(script, {'nome': nome})
@@ -83,6 +86,7 @@ def get_insumo_por_nome(nome):
 
 def get_insumos_por_data_validade(data_validade):
     try:
+        conn, cursor = get_connection()
         script = """SELECT * FROM insumos WHERE data_validade = :data_validade"""
         
         cursor.execute(script, {'data_validade': data_validade})
@@ -102,6 +106,7 @@ def get_insumos_por_data_validade(data_validade):
     
 def get_insumos_por_tipo(tipo):
     try:
+        conn, cursor = get_connection()
         script = """SELECT * FROM insumos WHERE tipo = :tipo"""
         
         cursor.execute(script, {'tipo': tipo})
@@ -121,6 +126,7 @@ def get_insumos_por_tipo(tipo):
 
 def update_insumo(id_insumo, campo, novo_valor):
     try:
+        conn, cursor = get_connection()
         script = f"""UPDATE insumos SET {campo} = :novo_valor WHERE id = :id_insumo"""
         
         cursor.execute(script, {'id_insumo': id_insumo, 'novo_valor': novo_valor})
@@ -143,6 +149,7 @@ def update_insumo(id_insumo, campo, novo_valor):
 
 def delete_insumo(id_insumo):
     try:
+        conn, cursor = get_connection()
         script = """DELETE FROM insumos WHERE id = :id_insumo"""
         
         cursor.execute(script, {'id_insumo': id_insumo})

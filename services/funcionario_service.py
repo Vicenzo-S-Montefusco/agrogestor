@@ -2,7 +2,7 @@ import repositories.funcionario_repository as func_repo
 
 def cadastrar_funcionario():
     try:
-        nome = input("Digite o nome: ")
+        nome   = input("Digite o nome: ")
         funcao = input("Digite a função: ")
 
         func_repo.post_funcionario(nome, funcao)

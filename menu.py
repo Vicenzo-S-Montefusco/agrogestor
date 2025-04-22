@@ -1,5 +1,9 @@
 import services.funcionario_service as func_service
 import services.insumo_service as insu_service
+import services.financeiro_service as finan_service
+import services.relatorio_service as relat_service
+import services.talhoes_service as talh_service
+import services.tarefa_service as tare_service
 
 def exibir_menu_principal():
     print("\n======= MENU PRINCIPAL =======")
@@ -86,13 +90,21 @@ def menu_producao():
 
         match opcao:
             case "1" | "criar":
-                print("[PRODUCAO] Cadastrar produção")
+                print("----- CADASTRAR PRODUÇÃO -----\n")
+                talh_service.cadastrar_talhao()
+
             case "2" | "consultar":
-                print("[PRODUCAO] Consultar produção")
+                print("----- CONSULTAR PRODUÇÃO -----\n")
+                talh_service.consultar_talhao()
+
             case "3" | "atualizar":
-                print("[PRODUCAO] Atualizar produção")
+                print("----- ATUALIZAR PRODUÇÃO -----\n")
+                talh_service.update_talhao()
+
             case "4" | "remover":
-                print("[PRODUCAO] Remover produção")
+                print("----- REMOVER PRODUÇÃO -----\n")
+                talh_service.delete_talhao()
+
             case "5" | "voltar":
                 break
             case _:
@@ -106,13 +118,21 @@ def menu_financeiro():
 
         match opcao:
             case "1" | "criar":
-                print("[FIN] Adicionar receita/despesa")
+                print("----- CADASTRAR FINANÇAS -----\n")
+                finan_service.cadastrar_financeiro()
+
             case "2" | "consultar":
-                print("[FIN] Consultar lançamentos")
+                print("----- CONSULTAR FINANÇAS -----\n")
+                finan_service.consultar_financeiro()
+
             case "3" | "atualizar":
-                print("[FIN] Atualizar lançamento")
+                print("----- ATUALIZAR FINANÇAS -----\n")
+                finan_service.atualizar_financeiro()
+
             case "4" | "remover":
-                print("[FIN] Remover lançamento")
+                print("----- REMOVER FINANÇAS -----\n")
+                finan_service.remover_financeiro()
+
             case "5" | "voltar":
                 break
             case _:
@@ -126,13 +146,21 @@ def menu_relatorios():
 
         match opcao:
             case "1" | "criar":
-                print("[REL] Gerar novo relatório")
+                print("----- CADASTRAR RELATÓRIO -----\n")
+                relat_service.cadastrar_relatorio()
+
             case "2" | "consultar":
-                print("[REL] Consultar relatórios existentes")
+                print("----- CONSULTAR RELATÓRIO -----\n")
+                relat_service.consultar_relatorio()
+
             case "3" | "atualizar":
-                print("[REL] Atualizar relatório")
+                print("----- ATUALIZAR RELATÓRIO -----\n")
+                relat_service.update_relatorio()
+
             case "4" | "remover":
-                print("[REL] Remover relatório")
+                print("----- REMOVER RELATÓRIO -----\n")
+                relat_service.delete_relatorio()
+
             case "5" | "voltar":
                 break
             case _:
@@ -146,13 +174,21 @@ def menu_checklist():
 
         match opcao:
             case "1" | "criar":
-                print("[TASK] Adicionar tarefa")
+                print("----- CADASTRAR TAREFAS -----\n")
+                tare_service.cadastrar_tarefa()
+
             case "2" | "consultar":
-                print("[TASK] Listar tarefas")
+                print("----- CONSULTAR TAREFAS -----\n")
+                tare_service.consultar_tarefa()
+
             case "3" | "atualizar":
-                print("[TASK] Atualizar tarefa")
+                print("----- ATUALIZAR TAREFAS -----\n")
+                tare_service.atualizar_tarefa()
+
             case "4" | "remover":
-                print("[TASK] Remover tarefa")
+                print("----- REMOVER TAREFAS -----\n")
+                tare_service.remover_tarefa()
+
             case "5" | "voltar":
                 break
             case _:

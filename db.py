@@ -16,8 +16,8 @@ cursor = None
 def get_connection():
     try:
         conn = oracledb.connect(
-            user='RM561332', 
-            password='111001', 
+            user=f"{db_user}", 
+            password=f"{db_password}", 
             dsn=f"{db_host}:{db_port}/{db_service}"
         )
         cursor = conn.cursor()

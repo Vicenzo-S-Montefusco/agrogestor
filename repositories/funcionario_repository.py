@@ -1,14 +1,14 @@
 from db import get_connection
 import oracledb
 
-conn, cursor = get_connection()
-
-if conn is None or cursor is None:
-    print("Conexão com o banco falhou. Encerrando...")
-    exit()
+# conn, cursor = get_connection()
+# if conn is None or cursor is None:
+#     print("Conexão com o banco falhou. Encerrando...")
+#    exit()
 
 def post_funcionario(nome, funcao):
     try:
+        conn, cursor = get_connection()
         script = """INSERT INTO funcionarios (nome, funcao) VALUES (:nome, :funcao)"""
         
         cursor.execute(script, {'nome': nome, 'funcao': funcao})
@@ -26,6 +26,7 @@ def post_funcionario(nome, funcao):
 
 def get_funcionarios():
     try:
+        conn, cursor = get_connection()
         script = """SELECT * FROM funcionarios"""
         
         cursor.execute(script)
@@ -45,6 +46,7 @@ def get_funcionarios():
 
 def get_funcionario_por_id(id):
     try:
+        conn, cursor = get_connection()
         script = """SELECT * FROM funcionarios WHERE id = :id"""
         
         cursor.execute(script, {'id': id})
@@ -64,6 +66,7 @@ def get_funcionario_por_id(id):
 
 def get_funcionario_por_nome(nome):
     try:
+        conn, cursor = get_connection()
         script = """SELECT * FROM funcionarios WHERE nome = :nome"""
         
         cursor.execute(script, {'nome': nome})
@@ -83,6 +86,7 @@ def get_funcionario_por_nome(nome):
     
 def get_funcionarios_por_funcao(funcao):
     try:
+        conn, cursor = get_connection()
         script = """SELECT * FROM funcionarios WHERE funcao = :funcao"""
         
         cursor.execute(script, {'funcao': funcao})
@@ -102,6 +106,7 @@ def get_funcionarios_por_funcao(funcao):
     
 def update_funcionario(id_funcionario, campo, novo_valor):
     try:
+        conn, cursor = get_connection()
         if campo.lower() not in ['nome', 'funcao']:
             print("Campo inválido. Só é permitido atualizar 'nome' ou 'funcao'.")
             return
@@ -128,7 +133,7 @@ def update_funcionario(id_funcionario, campo, novo_valor):
 
 def delete_funcionario(id):
     try:
-
+        conn, cursor = get_connection()
         script = f"""DELETE FROM funcionarios WHERE id = :id"""
 
         cursor.execute(script, {'id': id})
@@ -148,3 +153,4 @@ def delete_funcionario(id):
             cursor.close()
         if conn:
             conn.close()
+            
