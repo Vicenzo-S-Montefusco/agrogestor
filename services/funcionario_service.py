@@ -32,7 +32,8 @@ def consultar_funcionario():
         if result is not None:
             print("Resultado da consulta:")
             for row in result:
-                print(row)
+                id, nome, funcao = row
+                print(f"Id: {id}, Nome: {nome}, Função: {funcao}")
         else:
             print("Nenhum resultado encontrado.")
     except ValueError:

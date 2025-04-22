@@ -1,4 +1,5 @@
 import services.funcionario_service as func_service
+import services.insumo_service as insu_service
 
 def exibir_menu_principal():
     print("\n======= MENU PRINCIPAL =======")
@@ -57,13 +58,21 @@ def menu_insumos():
 
         match opcao:
             case "1" | "criar":
-                print("[INSUMO] Cadastrar insumo")
+                print("----- CADASTRAR INSUMO -----\n")
+                insu_service.cadastrar_insumo()
+
             case "2" | "consultar":
-                print("[INSUMO] Consultar insumos")
+                print("----- CONSULTAR INSUMO -----\n")
+                insu_service.consultar_insumo()
+
             case "3" | "atualizar":
-                print("[INSUMO] Atualizar insumo")
+                print("----- ATUALIZAR INSUMO -----\n")
+                insu_service.atualizar_insumo()
+
             case "4" | "remover":
-                print("[INSUMO] Remover insumo")
+                print("----- REMOVER INSUMO -----\n")
+                insu_service.remover_insumo()
+
             case "5" | "voltar":
                 break
             case _:

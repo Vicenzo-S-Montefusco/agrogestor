@@ -7,26 +7,26 @@ if conn is None or cursor is None:
     print("Conexão com o banco falhou. Encerrando...")
     exit()
 
-def post_funcionario(nome, funcao):
+def post_insumo(nome, quantidade, peso, tipo, data_validade):
     try:
-        script = """INSERT INTO funcionarios (nome, funcao) VALUES (:nome, :funcao)"""
+        script = """INSERT INTO insumos (nome, quantidade, peso, tipo, data_validade) VALUES (:nome, :quantidade, :peso, :tipo, :data_validade)"""
         
-        cursor.execute(script, {'nome': nome, 'funcao': funcao})
+        cursor.execute(script, {'nome': nome, 'quantidade': quantidade, 'peso': peso, 'tipo': tipo, 'data_validade': data_validade})
         conn.commit()
 
     except oracledb.DatabaseError as e:
         print("Erro na transação do BD:", e)
         conn.rollback()
-        
+    
     finally:
         if cursor:
             cursor.close()
         if conn:
             conn.close()
 
-def get_funcionarios():
+def get_insumos():
     try:
-        script = """SELECT * FROM funcionarios"""
+        script = """SELECT * FROM insumos"""
         
         cursor.execute(script)
         resultado = cursor.fetchall()
@@ -42,10 +42,10 @@ def get_funcionarios():
             cursor.close()
         if conn:
             conn.close()
-
-def get_funcionario_por_id(id):
+    
+def get_insumo_por_id(id):
     try:
-        script = """SELECT * FROM funcionarios WHERE id = :id"""
+        script = """SELECT * FROM insumos WHERE id = :id"""
         
         cursor.execute(script, {'id': id})
         resultado = cursor.fetchall()
@@ -61,10 +61,10 @@ def get_funcionario_por_id(id):
             cursor.close()
         if conn:
             conn.close()
-
-def get_funcionario_por_nome(nome):
+    
+def get_insumo_por_nome(nome):
     try:
-        script = """SELECT * FROM funcionarios WHERE nome = :nome"""
+        script = """SELECT * FROM insumos WHERE nome = :nome"""
         
         cursor.execute(script, {'nome': nome})
         resultado = cursor.fetchall()
@@ -80,18 +80,18 @@ def get_funcionario_por_nome(nome):
             cursor.close()
         if conn:
             conn.close()
-    
-def get_funcionarios_por_funcao(funcao):
+
+def get_insumos_por_data_validade(data_validade):
     try:
-        script = """SELECT * FROM funcionarios WHERE funcao = :funcao"""
+        script = """SELECT * FROM insumos WHERE data_validade = :data_validade"""
         
-        cursor.execute(script, {'funcao': funcao})
+        cursor.execute(script, {'data_validade': data_validade})
         resultado = cursor.fetchall()
         
         return resultado
 
     except oracledb.DatabaseError as e:
-        print("Erro na consulta por funcao:", e)
+        print("Erro na consulta por data de validade:", e)
         return None
     
     finally:
@@ -100,24 +100,39 @@ def get_funcionarios_por_funcao(funcao):
         if conn:
             conn.close()
     
-def update_funcionario(id_funcionario, campo, novo_valor):
+def get_insumos_por_tipo(tipo):
     try:
-        if campo.lower() not in ['nome', 'funcao']:
-            print("Campo inválido. Só é permitido atualizar 'nome' ou 'funcao'.")
-            return
-
-        script = f"""UPDATE funcionarios SET {campo} = :valor WHERE id = :id"""
+        script = """SELECT * FROM insumos WHERE tipo = :tipo"""
         
-        cursor.execute(script, {'valor': novo_valor, 'id': id_funcionario})
+        cursor.execute(script, {'tipo': tipo})
+        resultado = cursor.fetchall()
+        
+        return resultado
+
+    except oracledb.DatabaseError as e:
+        print("Erro na consulta por tipo:", e)
+        return None
+    
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+def update_insumo(id_insumo, campo, novo_valor):
+    try:
+        script = f"""UPDATE insumos SET {campo} = :novo_valor WHERE id = :id_insumo"""
+        
+        cursor.execute(script, {'id_insumo': id_insumo, 'novo_valor': novo_valor})
         conn.commit()
 
         if cursor.rowcount > 0:
             print(f"{campo.capitalize()} atualizado com sucesso!")
         else:
-            print("Nenhum funcionário encontrado com o ID informado.")
+            print("Nenhum insumo encontrado com o ID informado.")
 
     except oracledb.DatabaseError as e:
-        print("Erro ao atualizar funcionário:", e)
+        print("Erro na transação do BD:", e)
         conn.rollback()
         
     finally:
@@ -126,21 +141,20 @@ def update_funcionario(id_funcionario, campo, novo_valor):
         if conn:
             conn.close()
 
-def delete_funcionario(id):
+def delete_insumo(id_insumo):
     try:
-
-        script = f"""DELETE FROM funcionarios WHERE id = :id"""
-
-        cursor.execute(script, {'id': id})
+        script = """DELETE FROM insumos WHERE id = :id_insumo"""
+        
+        cursor.execute(script, {'id_insumo': id_insumo})
         conn.commit()
 
         if cursor.rowcount > 0:
-            print(f"Funcionário(s) com id = '{id}' deletado(s) com sucesso!")
+            print(f"Insumo(s) com id = '{id_insumo}' deletado(s) com sucesso!")
         else:
-            print(f"Nenhum funcionário encontrado com id = '{id}'.")
+            print(f"Nenhum insumo encontrado com id = '{id_insumo}'.")
 
     except oracledb.DatabaseError as e:
-        print("Erro ao deletar funcionário:", e)
+        print("Erro na transação do BD:", e)
         conn.rollback()
         
     finally:
